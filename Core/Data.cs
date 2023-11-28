@@ -1,4 +1,5 @@
 using MonoGame.ImGuiNet;
+using System;
 
 namespace Fizzle.Core;
 
@@ -18,6 +19,14 @@ public static class Data
         public enum GameStates { Menu, Game, Settings }
         public static GameStates CurrentState { get; set; } = GameStates.Menu;
         public static ContentManager Content { get; set; }
+  
+        public static float TotalSeconds { get; set; }
+        public static TimeSpan GameMS { get; set; }
+        public static void GameTime(GameTime gameTime)
+        {
+            TotalSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            GameMS = gameTime.TotalGameTime;
+        }
     }
     public struct GUI
     {

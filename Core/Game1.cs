@@ -45,6 +45,9 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         checkAppRegainedFocus();
+
+        Data.Game.GameTime(gameTime);
+
         if (!IsActive)
             return;
 
