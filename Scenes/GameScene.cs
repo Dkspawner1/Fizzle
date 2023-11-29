@@ -1,6 +1,7 @@
 using Fizzle.Managers;
 using Fizzle.Tile;
 using ImGuiNET;
+using Microsoft.VisualBasic;
 using MLEM.Cameras;
 using System.Linq;
 
@@ -71,12 +72,19 @@ public class GameScene : IFizzleComponent
         camera.Scale = scale;
         ImGui.BeginMenu("Camera", true);
         ImGui.SliderFloat("Zoom", ref scale, 1f, 5f, default, ImGuiSliderFlags.NoRoundToFormat);
-        ImGui.BeginListBox("Keybinds");
 
-        foreach (var bind in players.players.First().controller.Binds)
-            ImGui.Text($"{bind.Key} = {bind.Value}");
-        ImGui.Text($"{players.players[0].controller.Direction}"); 
-        ImGui.EndListBox();
+
+        for (int i = 0; i < players.players.Count; i++)
+        {
+            ImGui.BeginListBox($"Keybinds Player: {i}");
+            Models.Player<Models.PlayerController> player = players.players[i];
+            ImGui.Text($"Player: {player.controller.Direction}");
+
+            foreach (var kvp in player.controller.Binds)
+                ImGui.Text($"{kvp.Key} = {kvp.Value}");
+            ImGui.EndListBox();
+        }
+
         ImGui.EndMenu();
         ImGui.EndMenuBar();
     }

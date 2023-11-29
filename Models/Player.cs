@@ -6,7 +6,7 @@ namespace Fizzle.Models
     {
         public bool MainPlayer { get; }
 
-        public readonly Controller controller;
+        public Controller controller;
 
         public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer) : base(pathToSF, scale, startPosition)
         {
@@ -14,16 +14,10 @@ namespace Fizzle.Models
             controller = new Controller();
         }
 
-        public override void LoadContent(ContentManager Content)
-        {
-            base.LoadContent(Content);
-        }
+        public override void LoadContent(ContentManager Content) => base.LoadContent(Content);
 
         public void Update(GameTime gameTime)
         {
-
-
-
             controller.Update();
 
             UpdateAnimation();
@@ -61,7 +55,6 @@ namespace Fizzle.Models
             }
         }
 
-
         internal void Move(in float speed)
         {
             if (!CanMove)
@@ -82,15 +75,11 @@ namespace Fizzle.Models
                     Velocity.Y = speed;
                     break;
                 case Vector2(0, -1):
-                    Velocity.Y= -speed;
+                    Velocity.Y = -speed;
                     break;
 
             }
         }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            sprite.Draw(spriteBatch, Position, 0f, Scale);
-        }
+        public void Draw(SpriteBatch spriteBatch) => sprite.Draw(spriteBatch, Position, 0f, Scale);
     }
 }

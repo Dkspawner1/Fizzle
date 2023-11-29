@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace Fizzle.Models
+﻿namespace Fizzle.Models
 {
     public class PlayerController
     {
@@ -17,19 +14,23 @@ namespace Fizzle.Models
 
         private Vector2 direction;
         public Vector2 Direction => direction;
-
-        protected KeyboardState kb, oldKb;
+        public KeyboardState kb, oldKb;
+        public bool ControlSchemeInUse { get; set; } = false;
 
         public PlayerController()
         {
             Binds = new Dictionary<string, Keys>();
-            LoadKeybinds(ControlScheme.WASD);
+        }
+        public void AddControlScheme()
+        { 
+        
         }
 
-        private void LoadKeybinds(ControlScheme control)
+        public void LoadKeybinds(ControlScheme control)
         {
             switch (control)
             {
+                default:
                 case ControlScheme.WASD:
                     Binds[$"up"] = Keys.W;
                     Binds[$"down"] = Keys.S;
@@ -47,6 +48,7 @@ namespace Fizzle.Models
                 case ControlScheme.NONE:
                     break;
             }
+         
         }
 
         public void Update()
@@ -54,14 +56,13 @@ namespace Fizzle.Models
             oldKb = kb;
             kb = Keyboard.GetState();
 
-            direction = Vector2.Clamp(direction, Vector2.Zero, new Vector2(-1,-1));
-
+            NormalizeClamp(ref direction);
             if (kb.IsKeyDown(Binds["left"])) direction.X--;
             else if (kb.IsKeyDown(Binds["right"])) direction.X++;
             else if (kb.IsKeyDown(Binds["up"])) direction.Y--;
             else if (kb.IsKeyDown(Binds["down"])) direction.Y++;
             else direction = Vector2.Zero;
         }
-
+        private void NormalizeClamp(ref Vector2 dir) => dir = Vector2.Clamp(dir, Vector2.Zero, Vector2.Negate(Vector2.One));
     }
 }

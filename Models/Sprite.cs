@@ -21,9 +21,6 @@ namespace Fizzle.Models
         internal AnimatedSprite sprite;
         private SpriteSheet spritesheet;
 
-
-
-
         public double Damage() => new Random().Next(DamageLow, DamageHigh);
 
         public Sprite(string pathToSF, float scale, Vector2 startPosition)
