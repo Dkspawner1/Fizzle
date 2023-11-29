@@ -1,5 +1,4 @@
 using Fizzle.Managers;
-using Fizzle.Models;
 using Fizzle.Tile;
 using ImGuiNET;
 using MLEM.Cameras;
@@ -30,19 +29,23 @@ public class GameScene : IFizzleComponent
             Scale = 2f,
 
         };
-        scale = camera.Scale;
 
+        scale = camera.Scale;
         players.LoadContent(Content);
     }
 
     public void Update(GameTime gameTime)
     {
-        InputManager.UpdateKeyboard();
-
-        camera.LookingPosition = players.sprites.FirstOrDefault(p => p.MainSprite).Position;    
+        camera.ConstrainWorldBounds(Vector2.Zero, new(tileMapManager.currentMap.Map.Width * tileMapManager.currentMap.Map.TileWidth,
+            tileMapManager.currentMap.Map.Height *
+            tileMapManager.currentMap.Map.TileHeight));
 
         tileMapManager.Update(gameTime);
         transform = camera.ViewMatrix;
+
+        var mainPlayer = players.players.FirstOrDefault(x => x.MainPlayer).Position;
+        camera.LookingPosition = mainPlayer;
+
 
         players.Update(gameTime);
     }
@@ -68,6 +71,12 @@ public class GameScene : IFizzleComponent
         camera.Scale = scale;
         ImGui.BeginMenu("Camera", true);
         ImGui.SliderFloat("Zoom", ref scale, 1f, 5f, default, ImGuiSliderFlags.NoRoundToFormat);
+        ImGui.BeginListBox("Keybinds");
+
+        foreach (var bind in players.players.First().controller.Binds)
+            ImGui.Text($"{bind.Key} = {bind.Value}");
+        ImGui.Text($"{players.players[0].controller.Direction}"); 
+        ImGui.EndListBox();
         ImGui.EndMenu();
         ImGui.EndMenuBar();
     }

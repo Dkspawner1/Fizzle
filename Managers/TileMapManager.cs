@@ -20,7 +20,7 @@ public class TileMapManager : IFizzleComponent
 
         gui = new();
     }
-    private FizzleTileMap currentMap;
+    public FizzleTileMap currentMap;
 
     protected virtual FizzleTileMap CurrentMap
     {
@@ -81,10 +81,5 @@ public class TileMapManager : IFizzleComponent
         }
 
         gui.DrawGUI("TileManager Runtime Variables","Variables",true,tileMaps[keyList[currentMapIndex - 1]].MapName);
-
-  
-
-
     }
-
 }
