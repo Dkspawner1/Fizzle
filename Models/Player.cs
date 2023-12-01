@@ -1,24 +1,29 @@
-﻿using MonoGame.Extended.Sprites;
+﻿using ImGuiNET;
+using MonoGame.Extended.Sprites;
+using System.Diagnostics;
 
 namespace Fizzle.Models
 {
-    public class Player<Controller> : Sprite where Controller : PlayerController, new()
+    public class Player<controller> : Sprite where controller : PlayerController, new()
     {
         public bool MainPlayer { get; }
+        public int ControlScheme { get; }
 
-        public Controller controller;
+        public controller Controller { get; set; } = new();
+        private IHitboxHelper HitboxHelper => this;
+        private ISpriteCollision Collider => this;
 
-        public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer) : base(pathToSF, scale, startPosition)
+        public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer, int controlScheme) : base(pathToSF, scale, startPosition)
         {
             MainPlayer = mainPlayer;
-            controller = new Controller();
+            Controller.AddController(controlScheme);
         }
 
         public override void LoadContent(ContentManager Content) => base.LoadContent(Content);
 
         public void Update(GameTime gameTime)
         {
-            controller.Update();
+            Controller.Update();
 
             UpdateAnimation();
             sprite.Update(gameTime);
@@ -29,13 +34,15 @@ namespace Fizzle.Models
             Position += Velocity;
             Velocity = Vector2.Zero;
 
-
+            HitboxHelper.Hitbox = Hitbox;
+            HitboxHelper.Color = Color.Red;
+            Collider.Velocity = Velocity;
         }
 
         private string lastDirection = "down", animation = "down";
         private void UpdateAnimation()
         {
-            switch (controller.Direction)
+            switch (Controller.Direction)
             {
                 default:
                     animation = $"{lastDirection}";
@@ -60,7 +67,7 @@ namespace Fizzle.Models
             if (!CanMove)
                 return;
 
-            switch (controller.Direction)
+            switch (Controller.Direction)
             {
                 default:
                     Velocity = Vector2.Zero;
@@ -77,9 +84,13 @@ namespace Fizzle.Models
                 case Vector2(0, -1):
                     Velocity.Y = -speed;
                     break;
-
             }
         }
-        public void Draw(SpriteBatch spriteBatch) => sprite.Draw(spriteBatch, Position, 0f, Scale);
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            sprite.Draw(spriteBatch, Position, 0f, Scale);
+            HitboxHelper.DrawHitbox(spriteBatch);
+        }
+
     }
 }

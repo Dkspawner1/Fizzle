@@ -28,7 +28,7 @@ public class GameScene : IFizzleComponent
             AutoScaleReferenceSize = new Point(Data.Window.ScreenW, Data.Window.ScreenH),
             AutoScaleWithScreen = true,
             Scale = 2f,
-
+            RoundPosition = false
         };
 
         scale = camera.Scale;
@@ -44,7 +44,9 @@ public class GameScene : IFizzleComponent
         tileMapManager.Update(gameTime);
         transform = camera.ViewMatrix;
 
+        // Main player is used for the camera to follow
         var mainPlayer = players.players.FirstOrDefault(x => x.MainPlayer).Position;
+
         camera.LookingPosition = mainPlayer;
 
 
@@ -62,8 +64,8 @@ public class GameScene : IFizzleComponent
 
         DrawDebugGUI(ref scale);
     }
-    #region IMGUI 
 
+    #region IMGUI 
 
     private float scale;
     private void DrawDebugGUI(ref float scale)
@@ -72,18 +74,6 @@ public class GameScene : IFizzleComponent
         camera.Scale = scale;
         ImGui.BeginMenu("Camera", true);
         ImGui.SliderFloat("Zoom", ref scale, 1f, 5f, default, ImGuiSliderFlags.NoRoundToFormat);
-
-
-        for (int i = 0; i < players.players.Count; i++)
-        {
-            ImGui.BeginListBox($"Keybinds Player: {i}");
-            Models.Player<Models.PlayerController> player = players.players[i];
-            ImGui.Text($"Player: {player.controller.Direction}");
-
-            foreach (var kvp in player.controller.Binds)
-                ImGui.Text($"{kvp.Key} = {kvp.Value}");
-            ImGui.EndListBox();
-        }
 
         ImGui.EndMenu();
         ImGui.EndMenuBar();

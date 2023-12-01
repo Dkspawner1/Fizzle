@@ -62,10 +62,7 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         Data.GUI.Renderer.BeginLayout(gameTime);
-
-
         gsm.Draw(spriteBatch);
-
         Data.GUI.Renderer.EndLayout();
 
         base.Draw(gameTime);
