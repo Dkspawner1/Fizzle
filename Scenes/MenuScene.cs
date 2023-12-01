@@ -9,11 +9,11 @@ public class MenuScene : IFizzleComponent
     private List<Texture2D> buttons;
     private List<Rectangle> buttonRects;
     private List<Music> songs = new List<Music>();
+
     public MenuScene()
     {
         buttons = new List<Texture2D>(3);
         buttonRects = new List<Rectangle>(buttons.Capacity);
-
     }
 
     public void LoadContent(ContentManager Content)
@@ -43,6 +43,7 @@ public class MenuScene : IFizzleComponent
     }
     public void Draw(SpriteBatch spriteBatch)
     {
+
         spriteBatch.Begin();
         for (int i = 0; i < buttons.Count; i++)
         {
