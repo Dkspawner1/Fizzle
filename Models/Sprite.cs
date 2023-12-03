@@ -3,7 +3,6 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Serialization;
 using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 
 namespace Fizzle.Models

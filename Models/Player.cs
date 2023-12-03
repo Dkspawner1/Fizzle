@@ -11,7 +11,7 @@ namespace Fizzle.Models
         public int ControlScheme { get; }
         public PlayerController Controller { get; set; } = new();
         public IHitbox HitboxHelper => this;
-        public ISpriteCollision Collider => this;
+        public SpriteAABBCollision Collider => this;
 
         private const float OFFSET_Y = 5f;
 
@@ -23,12 +23,11 @@ namespace Fizzle.Models
         }
 
         public override void LoadContent(ContentManager Content) => base.LoadContent(Content);
-      
+
         public void Update(GameTime gameTime)
         {
             Controller.Update();
             Hitbox = UpdateHitBox();
-
 
             Position += Velocity;
             Velocity = Vector2.Zero;
@@ -38,11 +37,9 @@ namespace Fizzle.Models
             sprite.Update(gameTime);
             sprite.Play(animation).Play();
         }
-        private Rectangle UpdateHitBox() => new Rectangle
-                   ((int)(Position.X - (sprite.TextureRegion.Width / Scale.X)),
-                   (int)(Position.Y - sprite.TextureRegion.Height + OFFSET_Y),
-                   (int)(sprite.TextureRegion.Width * Scale.X),
-                   (int)(sprite.TextureRegion.Height * Scale.Y));
+
+        public readonly float scale = 1.45f, originOffset = 2f, xyOffset = 1f;
+        private   Rectangle UpdateHitBox() => new Rectangle((int)(Position.X - (sprite.TextureRegion.Width / scale) / originOffset + xyOffset), (int)(Position.Y - (sprite.TextureRegion.Height / scale) / originOffset + xyOffset), (int)(sprite.TextureRegion.Width / scale), (int)(sprite.TextureRegion.Height / scale));
 
         private string lastDirection = "down", animation = "down";
         private void Move(float speed)
@@ -55,7 +52,6 @@ namespace Fizzle.Models
                 default:
                     animation = $"{lastDirection}";
                     break;
-
                 case Vector2(0, -1):
                     Velocity.Y = -speed;
                     animation = lastDirection = "up";
@@ -64,7 +60,7 @@ namespace Fizzle.Models
                     Velocity.Y = speed;
                     animation = lastDirection = "down";
                     break;
-             
+
                 case Vector2(-1, 0):
                     Velocity.X = -speed;
                     animation = lastDirection = "left";

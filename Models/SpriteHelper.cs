@@ -1,6 +1,6 @@
 ﻿namespace Fizzle.Models
 {
-    public abstract class SpriteHelper : ISpriteCollision, IHitbox
+    public abstract class SpriteHelper : SpriteAABBCollision, IHitbox
     {
         public Color Color { get; set; }
         public bool Visible { get; set; } = true;
