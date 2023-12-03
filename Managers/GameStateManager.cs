@@ -29,6 +29,7 @@ public class GameStateManager : IFizzleComponent
         loadingImage = Content.Load<Texture2D>("textures/btn0");
         ms.LoadContent(Content);
         gs.LoadContent(Content);
+
         isLoaded = true;
     }
 

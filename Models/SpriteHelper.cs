@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fizzle.Models
+﻿namespace Fizzle.Models
 {
-    public abstract class SpriteHelper : IHitboxHelper, ISpriteCollision
+    public abstract class SpriteHelper : ISpriteCollision, IHitbox
     {
-        Color IHitboxHelper.Color { get; set; }
-        bool IHitboxHelper.Visible { get; set; } = true;
-        Rectangle IHitboxHelper.Hitbox { get; set; }
-        bool ISpriteCollision.Contact { get; set; }
-        Vector2 ISpriteCollision.Velocity { get; set; }
+        public Color Color { get; set; }
+        public bool Visible { get; set; } = true;
+        public Rectangle Hitbox { get; set; }
     }
 }

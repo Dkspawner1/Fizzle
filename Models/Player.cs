@@ -1,68 +1,51 @@
-﻿using ImGuiNET;
-using MonoGame.Extended.Sprites;
+﻿using MonoGame.Extended.Sprites;
+using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Fizzle.Models
 {
-    public class Player<controller> : Sprite where controller : PlayerController, new()
+    public class Player : Sprite
     {
         public bool MainPlayer { get; }
         public int ControlScheme { get; }
+        public PlayerController Controller { get; set; } = new();
+        public IHitbox HitboxHelper => this;
+        public ISpriteCollision Collider => this;
 
-        public controller Controller { get; set; } = new();
-        private IHitboxHelper HitboxHelper => this;
-        private ISpriteCollision Collider => this;
+        private const float OFFSET_Y = 5f;
 
         public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer, int controlScheme) : base(pathToSF, scale, startPosition)
         {
             MainPlayer = mainPlayer;
             Controller.AddController(controlScheme);
+            HitboxHelper.Color = Color.Red;
         }
 
         public override void LoadContent(ContentManager Content) => base.LoadContent(Content);
-
+      
         public void Update(GameTime gameTime)
         {
             Controller.Update();
+            Hitbox = UpdateHitBox();
 
-            UpdateAnimation();
-            sprite.Update(gameTime);
-            sprite.Play(animation).Play();
 
-            var walkSpeed = Data.Game.TotalSeconds * 128f;
-            Move(walkSpeed);
             Position += Velocity;
             Velocity = Vector2.Zero;
+            var walkSpeed = Data.Game.TotalSeconds * 128f;
+            Move(walkSpeed);
 
-            HitboxHelper.Hitbox = Hitbox;
-            HitboxHelper.Color = Color.Red;
-            Collider.Velocity = Velocity;
+            sprite.Update(gameTime);
+            sprite.Play(animation).Play();
         }
+        private Rectangle UpdateHitBox() => new Rectangle
+                   ((int)(Position.X - (sprite.TextureRegion.Width / Scale.X)),
+                   (int)(Position.Y - sprite.TextureRegion.Height + OFFSET_Y),
+                   (int)(sprite.TextureRegion.Width * Scale.X),
+                   (int)(sprite.TextureRegion.Height * Scale.Y));
 
         private string lastDirection = "down", animation = "down";
-        private void UpdateAnimation()
-        {
-            switch (Controller.Direction)
-            {
-                default:
-                    animation = $"{lastDirection}";
-                    break;
-                case Vector2(1, 0):
-                    animation = lastDirection = "right";
-                    break;
-                case Vector2(-1, 0):
-                    animation = lastDirection = "left";
-                    break;
-                case Vector2(0, 1):
-                    animation = lastDirection = "down";
-                    break;
-                case Vector2(0, -1):
-                    animation = lastDirection = "up";
-                    break;
-            }
-        }
-
-        internal void Move(in float speed)
+        private void Move(float speed)
         {
             if (!CanMove)
                 return;
@@ -70,22 +53,29 @@ namespace Fizzle.Models
             switch (Controller.Direction)
             {
                 default:
-                    Velocity = Vector2.Zero;
+                    animation = $"{lastDirection}";
                     break;
-                case Vector2(1, 0):
-                    Velocity.X = speed;
-                    break;
-                case Vector2(-1, 0):
-                    Velocity.X = -speed;
+
+                case Vector2(0, -1):
+                    Velocity.Y = -speed;
+                    animation = lastDirection = "up";
                     break;
                 case Vector2(0, 1):
                     Velocity.Y = speed;
+                    animation = lastDirection = "down";
                     break;
-                case Vector2(0, -1):
-                    Velocity.Y = -speed;
+             
+                case Vector2(-1, 0):
+                    Velocity.X = -speed;
+                    animation = lastDirection = "left";
+                    break;
+                case Vector2(1, 0):
+                    Velocity.X = speed;
+                    animation = lastDirection = "right";
                     break;
             }
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch, Position, 0f, Scale);

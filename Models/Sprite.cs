@@ -18,22 +18,14 @@ namespace Fizzle.Models
         // Variables
         public int Hp;
         public int DamageLow, DamageHigh;
-        public Vector2 Velocity;
 
-        private string path;
+        //public Vector2 Velocity;
         internal AnimatedSprite sprite;
+        private string path;
         private SpriteSheet spritesheet;
 
-        public double Damage() => new Random().Next(DamageLow, DamageHigh);
 
-        public Rectangle Hitbox
-        {
-            get => new Rectangle
-                ((int)(Position.X - (sprite.TextureRegion.Width / Scale.X / 2f) + 1f),
-             (int)(Position.Y - sprite.TextureRegion.Height / Scale.Y / 2f + 1f),
-                (int)(sprite.TextureRegion.Width / Scale.X),
-                (int)(sprite.TextureRegion.Height / Scale.Y)); private set => Hitbox = value;
-        }
+        public double Damage() => new Random().Next(DamageLow, DamageHigh);
 
         public Sprite(string pathToSF, float scale, Vector2 startPosition)
         {
@@ -41,7 +33,6 @@ namespace Fizzle.Models
             path = pathToSF;
             Position = startPosition;
             CanMove = true;
-
 
             Trace.WriteLine("Sprite Created");
         }

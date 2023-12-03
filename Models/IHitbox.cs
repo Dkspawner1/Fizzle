@@ -2,7 +2,7 @@
 
 namespace Fizzle.Models
 {
-    public interface IHitboxHelper
+    public interface IHitbox
     {
         public Rectangle @Hitbox { get; set; }
         public Color @Color { get; set; }
