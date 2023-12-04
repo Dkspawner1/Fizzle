@@ -39,7 +39,7 @@ namespace Fizzle.Models
         }
 
         public readonly float scale = 1.45f, originOffset = 2f, xyOffset = 1f;
-        private   Rectangle UpdateHitBox() => new Rectangle((int)(Position.X - (sprite.TextureRegion.Width / scale) / originOffset + xyOffset), (int)(Position.Y - (sprite.TextureRegion.Height / scale) / originOffset + xyOffset), (int)(sprite.TextureRegion.Width / scale), (int)(sprite.TextureRegion.Height / scale));
+        private Rectangle UpdateHitBox() => new Rectangle((int)(Position.X - (sprite.TextureRegion.Width / scale) / originOffset + xyOffset), (int)(Position.Y - (sprite.TextureRegion.Height / scale) / originOffset + xyOffset), (int)(sprite.TextureRegion.Width / scale), (int)(sprite.TextureRegion.Height / scale));
 
         private string lastDirection = "down", animation = "down";
         private void Move(float speed)

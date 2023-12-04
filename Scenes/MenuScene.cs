@@ -31,9 +31,6 @@ public class MenuScene : IFizzleComponent
 
     public void Update(GameTime gameTime)
     {
-
-        InputManager.UpdateMouse();
-
         if (InputManager.mouse.LeftButton == ButtonState.Pressed && InputManager.mouseRect.Intersects(buttonRects[0]))
             Data.Game.CurrentState = Data.Game.GameStates.Game;
 

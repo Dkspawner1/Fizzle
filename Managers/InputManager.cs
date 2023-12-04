@@ -17,5 +17,11 @@ public static class InputManager
     #endregion
 
     #region keyboard
+    public static KeyboardState kb, oldKb;
+    public static void UpdateKeyboard()
+    {
+        oldKb = kb;
+        kb = Keyboard.GetState();
+    }
     #endregion
 }

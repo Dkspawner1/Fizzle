@@ -14,7 +14,6 @@ public class GameStateManager : IFizzleComponent
     bool isLoaded;
     SpriteFont loadingFont;
     Texture2D loadingImage;
-    float scaleLarge = 1f;
     //
 
     public GameStateManager()
@@ -25,16 +24,23 @@ public class GameStateManager : IFizzleComponent
     }
     public void LoadContent(ContentManager Content)
     {
+        
         loadingFont = Content.Load<SpriteFont>("Fonts/LoadingScreenFont");
         loadingImage = Content.Load<Texture2D>("textures/btn0");
         ms.LoadContent(Content);
         gs.LoadContent(Content);
 
-        isLoaded = true;
     }
 
     public void Update(GameTime gameTime)
     {
+
+        InputManager.UpdateMouse();
+        InputManager.UpdateKeyboard();
+
+        if (InputManager.kb.IsKeyDown(Keys.L))
+            isLoaded = true;
+
         if (isLoaded)
         {
             switch (Data.Game.CurrentState)
@@ -59,7 +65,7 @@ public class GameStateManager : IFizzleComponent
             spriteBatch.Begin();
             spriteBatch.Draw(loadingImage, new Rectangle(0, 0, 500, 500), Color.White);
             spriteBatch.DrawString(loadingFont, "LOADING...", new Vector2(Data.Window.ScreenW / 2 - loadingFont.MeasureString("LOADING...").X / 2,
-                Data.Window.ScreenH / 2 * scaleLarge), Color.Black, 0, new Vector2(0, 0), scaleLarge, SpriteEffects.None, 0);
+                Data.Window.ScreenH / 2), Color.Black, 0, new Vector2(0, 0), Vector2.One, SpriteEffects.None, 0);
             spriteBatch.End();
         }
         if (isLoaded)

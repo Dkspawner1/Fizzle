@@ -1,4 +1,6 @@
-﻿namespace Fizzle.Models
+﻿using System.Runtime.CompilerServices;
+
+namespace Fizzle.Models
 {
     public abstract class SpriteAABBCollision
     {
@@ -19,20 +21,27 @@
               player.Top < target.Top &&
               player.Right > target.Left &&
               player.Left < target.Right;
-        internal virtual bool IsTouchingBottom(Rectangle player, Rectangle target) =>
-          player.Top + Velocity.Y < target.Bottom &&
+        internal virtual bool IsTouchingBottom(Rectangle player, Rectangle target)
+        {
+            return player.Top + Velocity.Y < target.Bottom &&
               player.Bottom > target.Bottom &&
               player.Right > target.Left &&
               player.Left < target.Right;
 
+            //return player.Top + Velocity.Y < target.Bottom &&
+            //  player.Bottom > target.Bottom &&
+            //  player.Right > target.Left &&
+            //  player.Left < target.Right;
+        }
 
-        internal void CheckAginstPlayerCollision(Player player, Rectangle target)
+        internal void CheckAginstPlayerCollision(in Player player, Rectangle target)
         {
-            if (player.Velocity.X > 0 && player.Collider.IsTouchingLeft(player.Hitbox, target) || player.Collider.IsTouchingRight(player.Hitbox, target))
+            
+            if (Velocity.X > 0 && IsTouchingLeft(player.Hitbox, target) || IsTouchingRight(player.Hitbox, target))
                 player.Velocity.X = 0;
 
-            if (player.Velocity.Y > 0 && player.Collider.IsTouchingTop(player.Hitbox, target) || player.Velocity.Y < 0 && player.Collider.IsTouchingBottom(player.Hitbox, target))
-                player.Velocity.Y = 0;
+            if (Velocity.Y > 0 && IsTouchingTop(player.Hitbox, target) || Velocity.Y < 0 && IsTouchingBottom(player.Hitbox, target))
+                Velocity.Y = 0;
         }
         #endregion
     }

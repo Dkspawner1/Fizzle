@@ -7,8 +7,10 @@ namespace Fizzle.Managers
         public readonly List<Player> players;
         public PlayerManager() => players = new List<Player>()
             {
-                new("sprites/player.sf", 1.45f, new Vector2(400, 400), true,ControlSchemes.WASD),
-                new("sprites/player.sf", 1.45f, new Vector2(500, 500), true, ControlSchemes.ARROW_KEYS),
+                new("sprites/player.sf", 1.45f, new Vector2(400, 400),
+                    true,ControlSchemes.WASD),
+                new("sprites/player.sf", 1.45f, new Vector2(500, 500),
+                    false, ControlSchemes.ARROW_KEYS),
             };
 
         public void LoadContent(ContentManager Content)
@@ -21,8 +23,8 @@ namespace Fizzle.Managers
         {
             player.Update(gameTime);
 
-            player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
             player.Collider.CheckAginstPlayerCollision(player, players[0].Hitbox);
+            player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
         });
 
 

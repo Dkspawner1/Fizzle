@@ -49,17 +49,15 @@ public class TileMapManager : IFizzleComponent
         currentMap.LoadContent(Content);
     }
 
-    private KeyboardState kb, oldKb;
     public void Update(GameTime gameTime)
     {
-        oldKb = kb;
-        kb = Keyboard.GetState();
-        if (oldKb.IsKeyUp(Keys.D1) && kb.IsKeyDown(Keys.D1))
+
+        if (InputManager.oldKb.IsKeyUp(Keys.D1) && InputManager.kb.IsKeyDown(Keys.D1))
         {
             CurrentMap = tileMaps["world1"];
             currentMapIndex = 1;
         }
-        if (oldKb.IsKeyUp(Keys.D2) && kb.IsKeyDown(Keys.D2))
+        if (InputManager.oldKb.IsKeyUp(Keys.D2) && InputManager.kb.IsKeyDown(Keys.D2))
         {
             CurrentMap = tileMaps["world2"];
             currentMapIndex = 2;
