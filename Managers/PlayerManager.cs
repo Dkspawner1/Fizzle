@@ -1,4 +1,5 @@
 ﻿using Fizzle.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Fizzle.Managers
 {
@@ -14,20 +15,16 @@ namespace Fizzle.Managers
             };
 
         public void LoadContent(ContentManager Content)
-        {
-            foreach (var player in players)
-                player.LoadContent(Content);
-        }
+        => players.ForEach(player => player.LoadContent(Content));
 
         public void Update(GameTime gameTime) => players.ForEach(player =>
         {
-            player.Update(gameTime);
-
             player.Collider.CheckAginstPlayerCollision(player, players[0].Hitbox);
             player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
+            player.Update(gameTime);
+
+
         });
-
-
 
         public void Draw(SpriteBatch spriteBatch)
         {

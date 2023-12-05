@@ -30,6 +30,7 @@ public class GameStateManager : IFizzleComponent
         ms.LoadContent(Content);
         gs.LoadContent(Content);
 
+        isLoaded = true;
     }
 
     public void Update(GameTime gameTime)
@@ -38,8 +39,7 @@ public class GameStateManager : IFizzleComponent
         InputManager.UpdateMouse();
         InputManager.UpdateKeyboard();
 
-        if (InputManager.kb.IsKeyDown(Keys.L))
-            isLoaded = true;
+    
 
         if (isLoaded)
         {

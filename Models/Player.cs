@@ -13,7 +13,6 @@ namespace Fizzle.Models
         public IHitbox HitboxHelper => this;
         public SpriteAABBCollision Collider => this;
 
-        private const float OFFSET_Y = 5f;
 
         public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer, int controlScheme) : base(pathToSF, scale, startPosition)
         {
@@ -27,19 +26,21 @@ namespace Fizzle.Models
         public void Update(GameTime gameTime)
         {
             Controller.Update();
-            Hitbox = UpdateHitBox();
-
-            Position += Velocity;
-            Velocity = Vector2.Zero;
-            var walkSpeed = Data.Game.TotalSeconds * 128f;
-            Move(walkSpeed);
 
             sprite.Update(gameTime);
             sprite.Play(animation).Play();
+
+            Position += Velocity;
+            Hitbox = UpdateHitBox();
+            Velocity = Vector2.Zero;
+
+            var walkSpeed = Data.Game.TotalSeconds * 128f;
+            Move(walkSpeed);
+
+
         }
 
-        public readonly float scale = 1.45f, originOffset = 2f, xyOffset = 1f;
-        private Rectangle UpdateHitBox() => new Rectangle((int)(Position.X - (sprite.TextureRegion.Width / scale) / originOffset + xyOffset), (int)(Position.Y - (sprite.TextureRegion.Height / scale) / originOffset + xyOffset), (int)(sprite.TextureRegion.Width / scale), (int)(sprite.TextureRegion.Height / scale));
+        private Rectangle UpdateHitBox() => new Rectangle((int)Position.X,(int)Position.Y,sprite.TextureRegion.Width, sprite.TextureRegion.Height);
 
         private string lastDirection = "down", animation = "down";
         private void Move(float speed)
@@ -60,7 +61,6 @@ namespace Fizzle.Models
                     Velocity.Y = speed;
                     animation = lastDirection = "down";
                     break;
-
                 case Vector2(-1, 0):
                     Velocity.X = -speed;
                     animation = lastDirection = "left";
