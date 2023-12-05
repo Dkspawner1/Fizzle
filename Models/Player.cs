@@ -32,15 +32,15 @@ namespace Fizzle.Models
 
             Position += Velocity;
             Hitbox = UpdateHitBox();
+
             Velocity = Vector2.Zero;
 
             var walkSpeed = Data.Game.TotalSeconds * 128f;
             Move(walkSpeed);
 
-
         }
 
-        private Rectangle UpdateHitBox() => new Rectangle((int)Position.X,(int)Position.Y,sprite.TextureRegion.Width, sprite.TextureRegion.Height);
+        private Rectangle UpdateHitBox() => new Rectangle((int)Position.X, (int)Position.Y, sprite.TextureRegion.Width, sprite.TextureRegion.Height);
 
         private string lastDirection = "down", animation = "down";
         private void Move(float speed)

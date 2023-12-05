@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../Downloads/dorll.sf
+/copy:../../../../Downloads/dorll.sf;sprites/dorll.sf
+
 #begin Fonts/LoadingScreenFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -40,6 +43,18 @@
 
 #begin sprites/player.sf
 /copy:sprites/player.sf
+
+#begin sprites/Spritesheet_Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/Spritesheet_Spritesheet.png
 
 #begin textures/btn0.png
 /importer:TextureImporter

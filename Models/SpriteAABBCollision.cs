@@ -24,8 +24,6 @@
             player.Bottom > target.Bottom &&
             player.Right > target.Left &&
             player.Left < target.Right;
-
-
         internal void CheckAginstPlayerCollision(in Player player, Rectangle target)
         {
             if (Velocity.X > 0 && IsTouchingLeft(player.Hitbox, target) || IsTouchingRight(player.Hitbox, target))

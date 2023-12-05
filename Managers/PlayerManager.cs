@@ -10,7 +10,7 @@ namespace Fizzle.Managers
             {
                 new("sprites/player.sf", 1.45f, new Vector2(400, 400),
                     true,ControlSchemes.WASD),
-                new("sprites/player.sf", 1.45f, new Vector2(500, 500),
+                new("sprites/dorll.sf", 1.45f, new Vector2(500, 500),
                     false, ControlSchemes.ARROW_KEYS),
             };
 
@@ -19,6 +19,7 @@ namespace Fizzle.Managers
 
         public void Update(GameTime gameTime) => players.ForEach(player =>
         {
+            // TODO: reverse order of methods and logic so update is called first and collision is checked after
             player.Collider.CheckAginstPlayerCollision(player, players[0].Hitbox);
             player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
             player.Update(gameTime);
