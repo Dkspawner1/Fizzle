@@ -1,5 +1,4 @@
 ﻿using Fizzle.Models;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Fizzle.Managers
 {
@@ -10,22 +9,25 @@ namespace Fizzle.Managers
             {
                 new("sprites/player.sf", 1.45f, new Vector2(400, 400),
                     true,ControlSchemes.WASD),
-                new("sprites/dorll.sf", 1.45f, new Vector2(500, 500),
+                new("sprites/player.sf", 1.45f, new Vector2(500, 500),
                     false, ControlSchemes.ARROW_KEYS),
             };
 
         public void LoadContent(ContentManager Content)
-        => players.ForEach(player => player.LoadContent(Content));
+        {
+            foreach (var player in players)
+                player.LoadContent(Content);
+        }
 
         public void Update(GameTime gameTime) => players.ForEach(player =>
         {
-            // TODO: reverse order of methods and logic so update is called first and collision is checked after
-            player.Collider.CheckAginstPlayerCollision(player, players[0].Hitbox);
-            player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
             player.Update(gameTime);
 
-
+            player.Collider.CheckAginstPlayerCollision(player, players[0].Hitbox);
+            player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
         });
+
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
