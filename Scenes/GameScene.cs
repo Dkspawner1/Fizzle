@@ -31,14 +31,15 @@ public class GameScene : IFizzleComponent
         };
 
         scale = camera.Scale;
+
         players.LoadContent(Content);
     }
 
     public void Update(GameTime gameTime)
     {
-        camera.ConstrainWorldBounds(Vector2.Zero, new(tileMapManager.currentMap.Map.Width * tileMapManager.currentMap.Map.TileWidth,
-            tileMapManager.currentMap.Map.Height *
-            tileMapManager.currentMap.Map.TileHeight));
+        camera.ConstrainWorldBounds(Vector2.Zero, new(tileMapManager.CurrentMap.Map.Width * tileMapManager.CurrentMap.Map.TileWidth,
+            tileMapManager.CurrentMap.Map.Height *
+            tileMapManager.CurrentMap.Map.TileHeight));
 
         tileMapManager.Update(gameTime);
         transform = camera.ViewMatrix;
@@ -47,6 +48,8 @@ public class GameScene : IFizzleComponent
         var mainPlayer = players.players.FirstOrDefault(x => x.MainPlayer).Position;
 
         camera.LookingPosition = mainPlayer;
+
+        players.players.ForEach(x => x.Collider.CheckMapCollision(x, tileMapManager)) ;
 
 
         players.Update(gameTime);

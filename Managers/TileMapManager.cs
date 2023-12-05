@@ -20,12 +20,13 @@ public class TileMapManager : IFizzleComponent
 
         gui = new();
     }
-    public FizzleTileMap currentMap;
 
-    protected virtual FizzleTileMap CurrentMap
+    private FizzleTileMap currentMap;
+
+    internal FizzleTileMap CurrentMap
     {
         get => currentMap;
-        set
+        private set
         {
             currentMap.UnloadContent();
             currentMap = value;
@@ -54,12 +55,12 @@ public class TileMapManager : IFizzleComponent
 
         if (InputManager.oldKb.IsKeyUp(Keys.D1) && InputManager.kb.IsKeyDown(Keys.D1))
         {
-            CurrentMap = tileMaps["world1"];
+            currentMap = tileMaps["world1"];
             currentMapIndex = 1;
         }
         if (InputManager.oldKb.IsKeyUp(Keys.D2) && InputManager.kb.IsKeyDown(Keys.D2))
         {
-            CurrentMap = tileMaps["world2"];
+            currentMap = tileMaps["world2"];
             currentMapIndex = 2;
         }
 
@@ -70,6 +71,7 @@ public class TileMapManager : IFizzleComponent
     public void Draw(SpriteBatch spriteBatch)
     {
         currentMap.Draw(spriteBatch);
+        currentMap.DrawRectangleColliders(spriteBatch);
 
         if (DebugRect is not null)
         {
@@ -78,6 +80,8 @@ public class TileMapManager : IFizzleComponent
             spriteBatch.Draw(texture, (Rectangle)DebugRect, Color.White);
         }
 
-        gui.DrawGUI("TileManager Runtime Variables","Variables",true,tileMaps[keyList[currentMapIndex - 1]].MapName);
+        gui.DrawGUI("TileManager Runtime Variables", "Variables", true, tileMaps[keyList[currentMapIndex - 1]].MapName);
+
+
     }
 }

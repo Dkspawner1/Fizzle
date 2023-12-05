@@ -16,6 +16,9 @@
 #begin ../../../../Downloads/dorll.sf
 /copy:../../../../Downloads/dorll.sf;sprites/dorll.sf
 
+#begin ../bin/Release/net6.0/Content/tilemaps/world1.tmx
+/copy:../bin/Release/net6.0/Content/tilemaps/world1.tmx;tilemaps/world1.tmx
+
 #begin Fonts/LoadingScreenFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -106,10 +109,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tilemaps/tileset.png
-
-#begin tilemaps/world1.tmx
-/copy:tilemaps/world1.tmx
-
-#begin tilemaps/world2.tmx
-/copy:tilemaps/world2.tmx
 
