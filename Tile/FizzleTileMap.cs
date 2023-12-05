@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using TiledCS;
 using System.Diagnostics;
+using MonoGame.Extended;
 
 namespace Fizzle.Tile;
 
@@ -25,6 +26,8 @@ public class FizzleTileMap : IFizzleComponent
     public TiledLayer CollisionLayer;
     public List<Rectangle> CollisionRectangles;
 
+
+    //TODO: Change Fizzle Tilemap manager to take in this class as an interface and get rid of currentmap variable 
     [Flags]
     enum Translation
     {
@@ -141,5 +144,15 @@ public class FizzleTileMap : IFizzleComponent
                     foreach (var ts in TilesetTextures)
                         spriteBatch.Draw(ts, destination, source, Color.White, (float)rotation, Vector2.Zero, effects, 0);
                 }
+
+    }
+    public void DrawRectangleColliders(SpriteBatch spriteBatch)
+    {
+        foreach (var rect in CollisionRectangles)
+        {
+            spriteBatch.DrawRectangle(rect, Color.Red, 1);
+
+        }
+
     }
 }

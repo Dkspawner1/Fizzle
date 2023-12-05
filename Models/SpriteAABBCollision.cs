@@ -1,4 +1,6 @@
-﻿namespace Fizzle.Models
+﻿using Fizzle.Tile;
+
+namespace Fizzle.Models
 {
     public abstract class SpriteAABBCollision
     {
@@ -24,13 +26,24 @@
             player.Bottom > target.Bottom &&
             player.Right > target.Left &&
             player.Left < target.Right;
-        internal void CheckAginstPlayerCollision(in Player player, Rectangle target)
+        internal void CheckPlayerCollision(IHitbox hitbox, Rectangle target)
         {
-            if (Velocity.X > 0 && IsTouchingLeft(player.Hitbox, target) || IsTouchingRight(player.Hitbox, target))
-                player.Velocity.X = 0;
+            if (Velocity.X > 0 && IsTouchingLeft(hitbox.Hitbox, target) || IsTouchingRight(hitbox.Hitbox, target))
+                Velocity.X = 0;
 
-            if (Velocity.Y > 0 && IsTouchingTop(player.Hitbox, target) || Velocity.Y < 0 && IsTouchingBottom(player.Hitbox, target))
+            if (Velocity.Y > 0 && IsTouchingTop(hitbox.Hitbox, target) || Velocity.Y < 0 && IsTouchingBottom(hitbox.Hitbox, target))
                 Velocity.Y = 0;
+        }
+        internal void CheckMapCollision<TMM>(IHitbox player, TMM currentMap) where TMM : TileMapManager, new()
+        {
+            foreach (var rectangle in currentMap.CurrentMap.CollisionRectangles)
+            {
+                if (Velocity.X > 0 && IsTouchingLeft(player.Hitbox, rectangle) || IsTouchingRight(player.Hitbox, rectangle))
+                    Velocity.X = 0;
+                if (Velocity.Y > 0 && IsTouchingTop(player.Hitbox, rectangle) || Velocity.Y < 0 && IsTouchingBottom(player.Hitbox, rectangle))
+                    Velocity.Y = 0;
+            }
+
         }
         #endregion
     }

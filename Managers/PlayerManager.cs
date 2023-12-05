@@ -1,4 +1,5 @@
 ﻿using Fizzle.Models;
+using Fizzle.Tile;
 
 namespace Fizzle.Managers
 {
@@ -9,7 +10,7 @@ namespace Fizzle.Managers
             {
                 new("sprites/player.sf", 1.45f, new Vector2(400, 400),
                     true,ControlSchemes.WASD),
-                new("sprites/player.sf", 1.45f, new Vector2(500, 500),
+                new("sprites/dorll.sf", 1.45f, new Vector2(500, 500),
                     false, ControlSchemes.ARROW_KEYS),
             };
 
@@ -23,10 +24,11 @@ namespace Fizzle.Managers
         {
             player.Update(gameTime);
 
-            player.Collider.CheckAginstPlayerCollision(player, players[0].Hitbox);
-            player.Collider.CheckAginstPlayerCollision(player, players[1].Hitbox);
-        });
+            player.Collider.CheckPlayerCollision(player, players[0].Hitbox);
+            player.Collider.CheckPlayerCollision(player, players[1].Hitbox);
 
+            
+        });
 
 
         public void Draw(SpriteBatch spriteBatch)

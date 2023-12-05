@@ -8,16 +8,17 @@ namespace Fizzle.Models
     public class Player : Sprite
     {
         public bool MainPlayer { get; }
-        public int ControlScheme { get; }
-        public PlayerController Controller { get; set; } = new();
+        public  PlayerController Controller { get; set; } 
         public IHitbox HitboxHelper => this;
         public SpriteAABBCollision Collider => this;
 
 
         public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer, int controlScheme) : base(pathToSF, scale, startPosition)
         {
-            MainPlayer = mainPlayer;
+            Controller = new();
             Controller.AddController(controlScheme);
+
+            MainPlayer = mainPlayer;
             HitboxHelper.Color = Color.Red;
         }
 
