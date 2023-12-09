@@ -6,16 +6,16 @@ namespace Fizzle.Models
     {
         public Vector2 Velocity;
         #region collision
-        internal bool IsTouchingLeft(Rectangle player, Rectangle target) =>
-            player.Right + Velocity.X > target.Left &&
-            player.Left < target.Left &&
-            player.Bottom > target.Top &&
-            player.Top < target.Bottom;
-        internal bool IsTouchingRight(Rectangle player, Rectangle target) =>
-            player.Left + Velocity.X < target.Right &&
-            player.Right > target.Right &&
-            player.Bottom > target.Top &&
-            player.Top < target.Bottom;
+        internal bool IsTouchingLeft(Rectangle sprite, Rectangle target) =>
+            sprite.Right + Velocity.X > target.Left &&
+            sprite.Left < target.Left &&
+            sprite.Bottom > target.Top &&
+            sprite.Top < target.Bottom;
+        internal bool IsTouchingRight(Rectangle sprite, Rectangle target) =>
+            sprite.Left + Velocity.X < target.Right &&
+            sprite.Right > target.Right &&
+            sprite.Bottom > target.Top &&
+            sprite.Top < target.Bottom;
         internal bool IsTouchingTop(Rectangle player, Rectangle target) =>
             player.Bottom + Velocity.Y > target.Top &&
             player.Top < target.Top &&
@@ -26,21 +26,21 @@ namespace Fizzle.Models
             player.Bottom > target.Bottom &&
             player.Right > target.Left &&
             player.Left < target.Right;
-        internal void CheckPlayerCollision(IHitbox hitbox, Rectangle target)
+        internal void CheckPlayerCollision<Sprite>(Sprite sprite, Rectangle target) where Sprite : IHitbox
         {
-            if (Velocity.X > 0 && IsTouchingLeft(hitbox.Hitbox, target) || IsTouchingRight(hitbox.Hitbox, target))
+            if (Velocity.X > 0 && IsTouchingLeft(sprite.Hitbox, target) || IsTouchingRight(sprite.Hitbox, target))
                 Velocity.X = 0;
-
-            if (Velocity.Y > 0 && IsTouchingTop(hitbox.Hitbox, target) || Velocity.Y < 0 && IsTouchingBottom(hitbox.Hitbox, target))
+            if (Velocity.Y > 0 && IsTouchingTop(sprite.Hitbox, target) || IsTouchingBottom(sprite.Hitbox, target))
                 Velocity.Y = 0;
         }
-        internal void CheckMapCollision<TMM>(IHitbox player, TMM currentMap) where TMM : TileMapManager, new()
+
+        internal void CheckMapCollision<Sprite, MapManager>(Sprite sprite, MapManager currentMap) where MapManager : TileMapManager where Sprite : IHitbox
         {
             foreach (var rectangle in currentMap.CurrentMap.CollisionRectangles)
             {
-                if (Velocity.X > 0 && IsTouchingLeft(player.Hitbox, rectangle) || IsTouchingRight(player.Hitbox, rectangle))
+                if (Velocity.X > 0 && IsTouchingLeft(sprite.Hitbox, rectangle) || IsTouchingRight(sprite.Hitbox, rectangle))
                     Velocity.X = 0;
-                if (Velocity.Y > 0 && IsTouchingTop(player.Hitbox, rectangle) || Velocity.Y < 0 && IsTouchingBottom(player.Hitbox, rectangle))
+                if (Velocity.Y > 0 && IsTouchingTop(sprite.Hitbox, rectangle) || IsTouchingBottom(sprite.Hitbox, rectangle))
                     Velocity.Y = 0;
             }
 

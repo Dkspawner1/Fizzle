@@ -6,8 +6,8 @@ namespace Fizzle.Models
     {
         public Rectangle @Hitbox { get; set; }
         public Color @Color { get; set; }
-        protected bool Visible { get; set; } 
-        
+        protected bool Visible { get; set; }
+
         public virtual void DrawHitbox(SpriteBatch spriteBatch)
         {
             if (!Visible)

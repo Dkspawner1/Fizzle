@@ -8,7 +8,7 @@ namespace Fizzle.Models
     public class Player : Sprite
     {
         public bool MainPlayer { get; }
-        public  PlayerController Controller { get; set; } 
+        public PlayerController Controller { get; set; }
         public IHitbox HitboxHelper => this;
         public SpriteAABBCollision Collider => this;
 
@@ -21,7 +21,6 @@ namespace Fizzle.Models
             MainPlayer = mainPlayer;
             HitboxHelper.Color = Color.Red;
         }
-
         public override void LoadContent(ContentManager Content) => base.LoadContent(Content);
 
         public void Update(GameTime gameTime)

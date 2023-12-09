@@ -25,7 +25,7 @@ namespace Fizzle.Models
 
 
         public double Damage() => new Random().Next(DamageLow, DamageHigh);
-
+   
         public Sprite(string pathToSF, float scale, Vector2 startPosition)
         {
             Scale = new(scale, scale);

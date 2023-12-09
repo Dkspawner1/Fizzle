@@ -26,8 +26,6 @@ namespace Fizzle.Managers
 
             player.Collider.CheckPlayerCollision(player, players[0].Hitbox);
             player.Collider.CheckPlayerCollision(player, players[1].Hitbox);
-
-            
         });
 
 
