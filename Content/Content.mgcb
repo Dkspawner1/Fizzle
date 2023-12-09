@@ -98,6 +98,39 @@
 #begin tilemaps/fizzleset.tsx
 /copy:tilemaps/fizzleset.tsx
 
+#begin tilemaps/hub/character_base_16x16.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tilemaps/hub/character_base_16x16.png
+
+#begin tilemaps/hub/character_base_16x16.tsx
+/copy:tilemaps/hub/character_base_16x16.tsx
+
+#begin tilemaps/hub/dkspawner2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tilemaps/hub/dkspawner2.png
+
+#begin tilemaps/hub/dkspawner2_tileset.tsx
+/copy:tilemaps/hub/dkspawner2_tileset.tsx
+
+#begin tilemaps/hub/HubMap.tmx
+/copy:tilemaps/hub/HubMap.tmx
+
 #begin tilemaps/tileset.png
 /importer:TextureImporter
 /processor:TextureProcessor

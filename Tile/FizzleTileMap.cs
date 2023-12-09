@@ -3,6 +3,7 @@ using System;
 using TiledCS;
 using System.Diagnostics;
 using MonoGame.Extended;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Fizzle.Tile;
 
@@ -19,7 +20,13 @@ public class FizzleTileMap : IFizzleComponent
     // The tileset images used in Tiled
     public Dictionary<int, TiledTileset> Tilesets { get; private set; }
     public int Id { get; }
+
+    public enum MapType { Hub, OverWorld, Dungeon, NONE }
     public string MapName { get; set; }
+    public string FolderName { get; set; }
+
+
+
 
     public readonly List<Texture2D> TilesetTextures;
 
@@ -43,22 +50,31 @@ public class FizzleTileMap : IFizzleComponent
         Rotate_90AndFlip_H = Flip_H | Flip_V | Flip_D,
     }
 
-    public FizzleTileMap()
+
+    public FizzleTileMap(MapType type)
     {
         TilesetTextures = new();
         CollisionLayer = new();
         CollisionRectangles = new();
+
+        if (type == MapType.NONE) FolderName = string.Empty;
+        else
+            FolderName = new string(Enum.GetName(type) + "/");
     }
 
     public void LoadContent(ContentManager Content)
     {
         LoadMap(Content);
+
         // Every Tiled map should only have one collider layer
-        CollisionLayer = Map.Layers.First(l => l.name == "Collision");
+        CollisionLayer = Map.Layers.First(l => l.name == "collision".ToUpper());
 
         // Might not be working, check when collision is added into tiled map
+        //TODO: Fix, new map collision is undetectable with current settings need to find a way to make this work
         foreach (var rectangle in CollisionLayer.objects)
         {
+
+            //Trace.WriteLine(rectangle);
             CollisionRectangles.Add(new Rectangle((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height));
         }
 
@@ -71,8 +87,8 @@ public class FizzleTileMap : IFizzleComponent
     /// <param name="Content"></param>
     private void LoadMap(ContentManager Content)
     {
-        Map = new TiledMap($"{Content.RootDirectory}/TileMaps/{MapName}.tmx");
-        Tilesets = Map.GetTiledTilesets($"{Content.RootDirectory}/TileMaps/");
+        Map = new TiledMap($"{Content.RootDirectory}/TileMaps/{FolderName ??= string.Empty}{MapName}.tmx");
+        Tilesets = Map.GetTiledTilesets($"{Content.RootDirectory}/TileMaps/{FolderName ??= string.Empty}");
 
         TilesetTextures.AddRange(from tile in Tilesets
                                  select Content.Load<Texture2D>($"TileMaps/tileset"));

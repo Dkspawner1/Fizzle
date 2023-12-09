@@ -36,11 +36,11 @@ public class TileMapManager : IFizzleComponent
 
     public void LoadContent(ContentManager Content)
     {
-        tileMaps.Add("world1", new FizzleTileMap());
-        tileMaps.Add("world2", new FizzleTileMap());
+        tileMaps.Add("HubMap", new FizzleTileMap(FizzleTileMap.MapType.Hub));
+        //tileMaps.Add("world1", new FizzleTileMap(FizzleTileMap.MapType.NONE));
+
 
         keyList.AddRange(tileMaps.Keys);
-
         for (int i = 0; i < tileMaps.Count; i++)
             tileMaps[keyList[i]].MapName = keyList[i];
 
@@ -53,16 +53,16 @@ public class TileMapManager : IFizzleComponent
     public void Update(GameTime gameTime)
     {
 
-        if (InputManager.oldKb.IsKeyUp(Keys.D1) && InputManager.kb.IsKeyDown(Keys.D1))
-        {
-            currentMap = tileMaps["world1"];
-            currentMapIndex = 1;
-        }
-        if (InputManager.oldKb.IsKeyUp(Keys.D2) && InputManager.kb.IsKeyDown(Keys.D2))
-        {
-            currentMap = tileMaps["world2"];
-            currentMapIndex = 2;
-        }
+        //if (InputManager.oldKb.IsKeyUp(Keys.D1) && InputManager.kb.IsKeyDown(Keys.D1))
+        //{
+        //    currentMap = tileMaps["world1"];
+        //    currentMapIndex = 1;
+        //}
+        //if (InputManager.oldKb.IsKeyUp(Keys.D2) && InputManager.kb.IsKeyDown(Keys.D2))
+        //{
+        //    currentMap = tileMaps["world2"];
+        //    currentMapIndex = 2;
+        //}
 
         currentMap.Update(gameTime);
 
