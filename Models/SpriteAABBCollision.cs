@@ -16,16 +16,16 @@ namespace Fizzle.Models
             sprite.Right > target.Right &&
             sprite.Bottom > target.Top &&
             sprite.Top < target.Bottom;
-        internal bool IsTouchingTop(Rectangle player, Rectangle target) =>
-            player.Bottom + Velocity.Y > target.Top &&
-            player.Top < target.Top &&
-            player.Right > target.Left &&
-            player.Left < target.Right;
-        internal bool IsTouchingBottom(Rectangle player, Rectangle target) =>
-            player.Top + Velocity.Y < target.Bottom &&
-            player.Bottom > target.Bottom &&
-            player.Right > target.Left &&
-            player.Left < target.Right;
+        internal bool IsTouchingTop(Rectangle sprite, Rectangle target) =>
+            sprite.Bottom + Velocity.Y > target.Top &&
+            sprite.Top < target.Top &&
+            sprite.Right > target.Left &&
+            sprite.Left < target.Right;
+        internal bool IsTouchingBottom(Rectangle sprite, Rectangle target) =>
+            sprite.Top + Velocity.Y < target.Bottom &&
+            sprite.Bottom > target.Bottom &&
+            sprite.Right > target.Left &&
+            sprite.Left < target.Right;
         internal void CheckPlayerCollision<Sprite>(Sprite sprite, Rectangle target) where Sprite : IHitbox
         {
             if (Velocity.X > 0 && IsTouchingLeft(sprite.Hitbox, target) || IsTouchingRight(sprite.Hitbox, target))
@@ -33,7 +33,6 @@ namespace Fizzle.Models
             if (Velocity.Y > 0 && IsTouchingTop(sprite.Hitbox, target) || IsTouchingBottom(sprite.Hitbox, target))
                 Velocity.Y = 0;
         }
-
         internal void CheckMapCollision<Sprite, MapManager>(Sprite sprite, MapManager currentMap) where MapManager : TileMapManager where Sprite : IHitbox
         {
             foreach (var rectangle in currentMap.CurrentMap.CollisionRectangles)
@@ -43,7 +42,6 @@ namespace Fizzle.Models
                 if (Velocity.Y > 0 && IsTouchingTop(sprite.Hitbox, rectangle) || IsTouchingBottom(sprite.Hitbox, rectangle))
                     Velocity.Y = 0;
             }
-
         }
         #endregion
     }
