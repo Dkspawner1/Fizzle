@@ -1,7 +1,7 @@
 ﻿using MonoGame.Extended.Sprites;
 using System;
-using System.Diagnostics;
-using System.Threading;
+using Microsoft.Xna.Framework;
+using MonoGame.Extended;
 
 namespace Fizzle.Models
 {
@@ -12,23 +12,19 @@ namespace Fizzle.Models
         public IHitbox HitboxHelper => this;
         public SpriteAABBCollision Collider => this;
 
-
-        public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer, int controlScheme) : base(pathToSF, scale, startPosition)
+        public Player(string pathToSF, float scale, Vector2 startPosition, bool mainPlayer, int controlScheme)
+            : base(pathToSF, scale, startPosition)
         {
-            Controller = new();
-            Controller.AddController(controlScheme);
-
+            Controller = new PlayerController(controlScheme);
             MainPlayer = mainPlayer;
             HitboxHelper.Color = Color.Red;
         }
-        public override void LoadContent(ContentManager Content) => base.LoadContent(Content);
 
         public void Update(GameTime gameTime)
         {
             Controller.Update();
-
             sprite.Update(gameTime);
-            sprite.Play(animation).Play();
+            sprite.Play(animation);
 
             Position += Velocity;
             Hitbox = UpdateHitBox();
@@ -37,37 +33,51 @@ namespace Fizzle.Models
 
             var walkSpeed = Data.Game.TotalSeconds * 128f;
             Move(walkSpeed);
-
         }
 
         private Rectangle UpdateHitBox() => new Rectangle((int)Position.X, (int)Position.Y, sprite.TextureRegion.Width, sprite.TextureRegion.Height);
 
-        private string lastDirection = "down", animation = "down";
+        private string animation = "idleDown";
+
         private void Move(float speed)
         {
             if (!CanMove)
                 return;
 
+            UpdateAnimation();
+
             switch (Controller.Direction)
             {
-                default:
-                    animation = $"{lastDirection}";
-                    break;
-                case Vector2(0, -1):
+                case var dir when dir == -Vector2.UnitY: // Up
                     Velocity.Y = -speed;
-                    animation = lastDirection = "up";
                     break;
-                case Vector2(0, 1):
+                case var dir when dir == Vector2.UnitY: // Down
                     Velocity.Y = speed;
-                    animation = lastDirection = "down";
                     break;
-                case Vector2(-1, 0):
+                case var dir when dir == -Vector2.UnitX: // Left
                     Velocity.X = -speed;
-                    animation = lastDirection = "left";
                     break;
-                case Vector2(1, 0):
+                case var dir when dir == Vector2.UnitX: // Right
                     Velocity.X = speed;
-                    animation = lastDirection = "right";
+                    break;
+            }
+        }
+
+        private void UpdateAnimation()
+        {
+            switch (Controller.Direction)
+            {
+                case var dir when dir == -Vector2.UnitY:
+                    animation = "idleUp";
+                    break;
+                case var dir when dir == Vector2.UnitY:
+                    animation = "idleDown";
+                    break;
+                case var dir when dir == -Vector2.UnitX:
+                    animation = "idleLeft";
+                    break;
+                case var dir when dir == Vector2.UnitX:
+                    animation = "idleRight";
                     break;
             }
         }
@@ -77,6 +87,5 @@ namespace Fizzle.Models
             sprite.Draw(spriteBatch, Position, 0f, Scale);
             HitboxHelper.DrawHitbox(spriteBatch);
         }
-
     }
 }

@@ -10,7 +10,13 @@ namespace Fizzle.Models
         public Vector2 Direction => direction;
 
         private KeyboardState kb, oldKb;
-        public PlayerController() => Binds = new Dictionary<string, Keys>();
+
+        public PlayerController(int controlScheme)
+        {
+            Binds = new Dictionary<string, Keys>();
+
+            AddController(controlScheme);
+        }
 
         // Later on possibly make a function to swap keybinds
         public void AddController(int scheme)

@@ -17,7 +17,9 @@ namespace Fizzle.Managers
         public void LoadContent(ContentManager Content)
         {
             foreach (var player in players)
+            {
                 player.LoadContent(Content);
+            }
         }
 
         public void Update(GameTime gameTime) => players.ForEach(player =>

@@ -6,17 +6,22 @@
   },
   "cycles": {
     "idleDown": {
-      "frames": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
+      "frames": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ],
       "isLooping": false,
       "frameDuration": 0.2
     },
     "idleUp": {
-      "frames": [21,22,23,24],
+      "frames": [ 21, 22, 23, 24 ],
       "isLooping": false,
       "frameDuration": 0.2
     },
     "idleRight": {
-      "frames": [42,43,44,45,46,47,48,49,50,51,52,53,54,55,56],
+      "frames": [ 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56 ],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "idleLeft": {
+      "frames": [ 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56 ],
       "isLooping": false,
       "frameDuration": 0.2
     }
